@@ -23,8 +23,9 @@ class Client:
         return self._headers
 
 
-    def execute(self, message, method="POST"):
+    def execute(self, message, method="POST", variables=None):
         data = {"query": message}
+        if variables: data["variables"] = variables
         resp = requests.request(
          method, self._url, headers=self._headers, data=json.dumps(data)
         )
