@@ -21,6 +21,10 @@ class Client:
         }
 
 
+    def __repr__(self):
+        return f"<Client (URL: {self._url})>"
+
+
     @property
     def url(self):
         """The URL of the GraphQL server to interact with.
