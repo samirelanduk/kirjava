@@ -1,4 +1,4 @@
-atomium
+kirjava
 ========
 
 kirjava is a Python GraphQL client.
