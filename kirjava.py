@@ -1,6 +1,6 @@
 """The kirjava library."""
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Sam Ireland"
 
 import requests

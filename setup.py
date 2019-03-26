@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
  name="kirjava",
- version="0.1.0",
+ version="0.1.1",
  description="A Python GraphQL client.",
  url="https://kirjava.samireland.com",
  author="Sam Ireland",
