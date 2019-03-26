@@ -6,3 +6,4 @@ _templates
 build
 dist
 *.egg-info
+*.sqlite3
