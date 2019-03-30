@@ -34,3 +34,15 @@ class Test(LiveServerTestCase):
          client.execute("query MyQuery($myVar: String) { name(suffix: $myVar) }", variables={"myVar": "..."}),
          {"data": {"name": "The Republic of Heaven..."}}
         )
+
+        # History
+        self.assertEqual(client.history[0][0], {
+         "string": "query MyQuery($myVar: String) { name(suffix: $myVar) }",
+         "variables": {"myVar": "..."}
+        })
+        self.assertEqual(client.history[0][1], {"data": {"name": "The Republic of Heaven..."}})
+        self.assertEqual(client.history[1][0], {"string": "{ name headers}", "variables": {}})
+        self.assertEqual(client.history[1][1], {"data": {
+         "name": "The Republic of Heaven",
+         "headers": "HTTP_ACCEPT, HTTP_ACCEPT_ENCODING, HTTP_CONNECTION, HTTP_HOST, HTTP_KEY, HTTP_USER_AGENT"
+        }})

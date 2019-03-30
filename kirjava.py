@@ -19,6 +19,7 @@ class Client:
         self._headers = {
          "Accept": "application/json", "Content-Type": "application/json"
         }
+        self._history = []
 
 
     def __repr__(self):
@@ -43,6 +44,15 @@ class Client:
         return self._headers
 
 
+    @property
+    def history(self):
+        """The queries sent, most recent first.
+
+        :rtype: ``tuple``"""
+
+        return tuple(self._history)
+
+
     def execute(self, message, method="POST", variables=None):
         """Sends a request to the GraphQL server.
 
@@ -57,4 +67,8 @@ class Client:
         resp = requests.request(
          method, self._url, headers=self._headers, data=json.dumps(data)
         )
-        return resp.json()
+        result = resp.json()
+        self._history.insert(0, (
+         {"string": message, "variables": variables or {}}, result
+        ))
+        return result

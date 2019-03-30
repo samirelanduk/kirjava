@@ -37,6 +37,15 @@ class ClientHeaderTests(TestCase):
 
 
 
+class ClientHistoryTests(TestCase):
+
+    def test_can_get_client_history(self):
+        client = Client("http://url")
+        client._history = [1, 2]
+        self.assertEqual(client.history, (1, 2))
+
+
+
 class ClientExecutionTests(TestCase):
 
     @patch("requests.request")
@@ -47,6 +56,10 @@ class ClientExecutionTests(TestCase):
          "POST", "http://url", headers=client._headers, data='{"query": "MESSAGE"}'
         )
         self.assertEqual(result, mock_request.return_value.json.return_value)
+        self.assertEqual(client._history, [(
+         {"string": "MESSAGE", "variables": {}},
+         mock_request.return_value.json.return_value
+        )])
 
 
     @patch("requests.request")
@@ -67,3 +80,7 @@ class ClientExecutionTests(TestCase):
          "POST", "http://url", headers=client._headers, data='{"query": "MESSAGE", "variables": {"S": "T"}}'
         )
         self.assertEqual(result, mock_request.return_value.json.return_value)
+        self.assertEqual(client._history, [(
+         {"string": "MESSAGE", "variables": {"S": "T"}},
+         mock_request.return_value.json.return_value
+        )])
