@@ -1,15 +1,15 @@
 |travis| |coveralls| |pypi|
 
-.. |travis| image:: https://api.travis-ci.org/samirelanduk/kirjava.svg?branch=master
+.. |travis| image:: https://api.travis-ci.org/samirelanduk/kirjava.svg?branch=0.1.1
   :target: https://travis-ci.org/samirelanduk/kirjava/
 
-.. |coveralls| image:: https://coveralls.io/repos/github/samirelanduk/kirjava/badge.svg?branch=master
+.. |coveralls| image:: https://coveralls.io/repos/github/samirelanduk/kirjava/badge.svg?branch=0.1.1
   :target: https://coveralls.io/github/samirelanduk/kirjava/
 
 .. |pypi| image:: https://img.shields.io/pypi/pyversions/kirjava.svg
   :target: https://pypi.org/project/kirjava/
 
-atomium
+kirjava
 ========
 
 kirjava is a Python GraphQL client.
@@ -85,11 +85,29 @@ headers:
 
 Variables can be passed along with the query:
 
-  >>> client.execute("""{ me { name email }}""", variables={"var1": 123})
+    >>> client.execute("""{ me { name email }}""", variables={"var1": 123})
+
+You can see all previous queries made by a client:
+
+    >>> client.history
+    (({'string': { me { name email }}, 'variables': {'var1': 123}, {'data': {'me
+    ': {'name': 'Jon Snow', 'email': 'jon@winterfell.gov.ws'}}}), ({'string': {
+    me { name email }}, 'variables': {}}, {'data': {'me': {'name': 'Jon Snow', '
+    email': 'jon@winterfell.gov.ws'}}}))
 
 
 Changelog
 ---------
+
+Release 0.1.1
+~~~~~~~~~~~~~
+
+`23 March 2019`
+
+* Added tests.
+* Clients now store history of their queries.
+
+
 
 Release 0.1.0
 ~~~~~~~~~~~~~

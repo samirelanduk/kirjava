@@ -26,4 +26,12 @@ headers:
 
 Variables can be passed along with the query:
 
-  >>> client.execute("""{ me { name email }}""", variables={"var1": 123})
+    >>> client.execute("""{ me { name email }}""", variables={"var1": 123})
+
+You can see all previous queries made by a client:
+
+    >>> client.history
+    (({'string': { me { name email }}, 'variables': {'var1': 123}, {'data': {'me
+    ': {'name': 'Jon Snow', 'email': 'jon@winterfell.gov.ws'}}}), ({'string': {
+    me { name email }}, 'variables': {}}, {'data': {'me': {'name': 'Jon Snow', '
+    email': 'jon@winterfell.gov.ws'}}}))
