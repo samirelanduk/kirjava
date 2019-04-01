@@ -49,7 +49,26 @@ class Test(LiveServerTestCase):
 
 
     def test_quick_function(self):
+        # Basic
         self.assertEqual(
          kirjava.execute(self.live_server_url, "{ name }"),
          {"data": {"name": "The Republic of Heaven"}}
+        )
+
+        # With headers
+        self.assertEqual(
+         kirjava.execute(self.live_server_url, "{ name headers}", headers={"KEY": "VALUE"}),
+         {"data": {
+          "name": "The Republic of Heaven",
+          "headers": "HTTP_ACCEPT, HTTP_ACCEPT_ENCODING, HTTP_CONNECTION, HTTP_HOST, HTTP_KEY, HTTP_USER_AGENT"
+         }}
+        )
+
+        # With variables
+        self.assertEqual(
+         kirjava.execute(
+          self.live_server_url, "query MyQuery($myVar: String) { name(suffix: $myVar) }",
+          variables={"myVar": "..."}
+         ),
+         {"data": {"name": "The Republic of Heaven..."}}
         )

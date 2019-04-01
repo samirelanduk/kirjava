@@ -75,7 +75,7 @@ class Client:
 
 
 
-def execute(url, *args, **kwargs):
+def execute(url, *args, headers=None, **kwargs):
     """Sends a GraphQL request without making a dedicated :py:class:`.Client`
     object.
 
@@ -87,4 +87,5 @@ def execute(url, *args, **kwargs):
     :rtype: ``dict``"""
 
     client = Client(url)
+    if headers: client.headers.update(headers)
     return client.execute(*args, **kwargs)
