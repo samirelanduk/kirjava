@@ -8,7 +8,7 @@ setup(
  version="0.1.2",
  description="A Python GraphQL client.",
  long_description=long_description,
- long_description_content_type="test/x-rst",
+ long_description_content_type="text/x-rst",
  url="https://kirjava.samireland.com",
  author="Sam Ireland",
  author_email="mail@samireland.com",
