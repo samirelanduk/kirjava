@@ -72,3 +72,19 @@ class Client:
          {"string": message, "variables": variables or {}}, result
         ))
         return result
+
+
+
+def execute(url, *args, **kwargs):
+    """Sends a GraphQL request without making a dedicated :py:class:`.Client`
+    object.
+
+    :param str url: the URL to send to.
+    :param str message: The query to make.
+    :param str method: By default, POST requests are sent, but this can be\
+    overriden here.
+    :param dict variables: Any GraphQL variables can be passed here.
+    :rtype: ``dict``"""
+
+    client = Client(url)
+    return client.execute(*args, **kwargs)

@@ -11,7 +11,7 @@ import kirjava
 @override_settings(DEBUG=True)
 class Test(LiveServerTestCase):
 
-    def test(self):
+    def test_client(self):
         # Basic
         client = kirjava.Client(self.live_server_url)
         self.assertEqual(
@@ -46,3 +46,10 @@ class Test(LiveServerTestCase):
          "name": "The Republic of Heaven",
          "headers": "HTTP_ACCEPT, HTTP_ACCEPT_ENCODING, HTTP_CONNECTION, HTTP_HOST, HTTP_KEY, HTTP_USER_AGENT"
         }})
+
+
+    def test_quick_function(self):
+        self.assertEqual(
+         kirjava.execute(self.live_server_url, "{ name }"),
+         {"data": {"name": "The Republic of Heaven"}}
+        )
