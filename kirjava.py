@@ -12,7 +12,8 @@ class Client:
 
     The URL that serves the GraphQL content is given on creating the Client.
 
-    :param str url: The URL of the GraphQL server to interact with."""
+    :param str url: The URL of the GraphQL server to interact with.
+    :param dict headers: Any additional HTTP headers."""
 
     def __init__(self, url):
         self._url = url
@@ -76,13 +77,14 @@ class Client:
 
 
 def execute(url, *args, headers=None, **kwargs):
-    """Sends a GraphQL request without making a dedicated :py:class:`.Client`
-    object.
+    """Sends a GraphQL request without the user haveing to make a dedicated
+    :py:class:`.Client` object.
 
     :param str url: the URL to send to.
     :param str message: The query to make.
     :param str method: By default, POST requests are sent, but this can be\
     overriden here.
+    :param dict headers: Any additional HTTP headers.
     :param dict variables: Any GraphQL variables can be passed here.
     :rtype: ``dict``"""
 

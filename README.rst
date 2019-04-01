@@ -1,9 +1,9 @@
 |travis| |coveralls| |pypi|
 
-.. |travis| image:: https://api.travis-ci.org/samirelanduk/kirjava.svg?branch=0.1.1
+.. |travis| image:: https://api.travis-ci.org/samirelanduk/kirjava.svg?branch=0.1.2
   :target: https://travis-ci.org/samirelanduk/kirjava/
 
-.. |coveralls| image:: https://coveralls.io/repos/github/samirelanduk/kirjava/badge.svg?branch=0.1.1
+.. |coveralls| image:: https://coveralls.io/repos/github/samirelanduk/kirjava/badge.svg?branch=0.1.2
   :target: https://coveralls.io/github/samirelanduk/kirjava/
 
 .. |pypi| image:: https://img.shields.io/pypi/pyversions/kirjava.svg
@@ -63,8 +63,8 @@ Overview
 kirjava is a lightweight Python GraphQL client.
 
 
-Making Queries
-~~~~~~~~~~~~~~
+Making Queries with a Client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 GraphQL services are interacted with using a ``Client`` object:
 
@@ -75,7 +75,7 @@ The client is associated with a particular URL upon creation.
 
 Queries are then made using the ``execute`` method.
 
-    >>> client.execute("""{ me { name email }}""")
+    >>> client.execute("{ me { name email }}")
     {'data': {'me': {'name': 'Jon Snow', 'email': 'jon@winterfell.gov.ws'}}}
 
 If authentication tokens need to be added, they can be inserted into the
@@ -85,7 +85,7 @@ headers:
 
 Variables can be passed along with the query:
 
-    >>> client.execute("""{ me { name email }}""", variables={"var1": 123})
+    >>> client.execute("{ me { name email }}", variables={"var1": 123})
 
 You can see all previous queries made by a client:
 
@@ -95,18 +95,34 @@ You can see all previous queries made by a client:
     me { name email }}, 'variables': {}}, {'data': {'me': {'name': 'Jon Snow', '
     email': 'jon@winterfell.gov.ws'}}}))
 
+Making Queries without a Client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Alternatively, if creating a dedicated ``Client`` object is somehow
+beneath you, and you just want to fire off a quick request without any of that
+overhead, there is a module level ``execute`` function:
+
+    >>> kirjava.execute("https://api.coolsite.com/", "{ me { name email }}", headers={"Authorization": "dani123"}, variables={"var1": 123})
+
 
 Changelog
 ---------
 
+Release 0.1.2
+~~~~~~~~~~~~~
+
+`1 April 2019`
+
+* Added module-level execute function.
+
+
 Release 0.1.1
 ~~~~~~~~~~~~~
 
-`23 March 2019`
+`30 March 2019`
 
 * Added tests.
 * Clients now store history of their queries.
-
 
 
 Release 0.1.0

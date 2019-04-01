@@ -4,8 +4,8 @@ Overview
 kirjava is a lightweight Python GraphQL client.
 
 
-Making Queries
-~~~~~~~~~~~~~~
+Making Queries with a Client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 GraphQL services are interacted with using a :py:class:`.Client` object:
 
@@ -16,7 +16,7 @@ The client is associated with a particular URL upon creation.
 
 Queries are then made using the ``execute`` method.
 
-    >>> client.execute("""{ me { name email }}""")
+    >>> client.execute("{ me { name email }}")
     {'data': {'me': {'name': 'Jon Snow', 'email': 'jon@winterfell.gov.ws'}}}
 
 If authentication tokens need to be added, they can be inserted into the
@@ -26,7 +26,7 @@ headers:
 
 Variables can be passed along with the query:
 
-    >>> client.execute("""{ me { name email }}""", variables={"var1": 123})
+    >>> client.execute("{ me { name email }}", variables={"var1": 123})
 
 You can see all previous queries made by a client:
 
@@ -35,3 +35,12 @@ You can see all previous queries made by a client:
     ': {'name': 'Jon Snow', 'email': 'jon@winterfell.gov.ws'}}}), ({'string': {
     me { name email }}, 'variables': {}}, {'data': {'me': {'name': 'Jon Snow', '
     email': 'jon@winterfell.gov.ws'}}}))
+
+Making Queries without a Client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Alternatively, if creating a dedicated :py:class:`.Client` object is somehow
+beneath you, and you just want to fire off a quick request without any of that
+overhead, there is a module level :py:func:`.execute` function:
+
+    >>> kirjava.execute("https://api.coolsite.com/", "{ me { name email }}", headers={"Authorization": "dani123"}, variables={"var1": 123})
