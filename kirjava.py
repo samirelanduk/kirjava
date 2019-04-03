@@ -1,6 +1,6 @@
 """The kirjava library."""
 
-__version__ = "0.1.2"
+__version__ = "0.2.0"
 __author__ = "Sam Ireland"
 
 import requests
@@ -12,8 +12,7 @@ class Client:
 
     The URL that serves the GraphQL content is given on creating the Client.
 
-    :param str url: The URL of the GraphQL server to interact with.
-    :param dict headers: Any additional HTTP headers."""
+    :param str url: The URL of the GraphQL server to interact with."""
 
     def __init__(self, url):
         self._url = url
