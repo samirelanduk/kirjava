@@ -69,9 +69,19 @@ class Client:
         resp = self.session.request(
             method, self._url, headers=self._headers, data=json.dumps(data)
         )
-        result = resp.json()
+        try:
+            result = resp.json()
+        except json.decoder.JSONDecodeError:
+            content_type = resp.headers["Content-type"]
+            try:
+                content = resp.content.decode()
+            except: content = None
+            message = f"Server did not return JSON, it returned {content_type}"
+            if content and len(content) < 256:
+                message += ":\n" + content
+            raise ValueError(message)
         self._history.insert(0, (
-         {"string": message, "variables": variables or {}}, result
+            {"string": message, "variables": variables or {}}, result
         ))
         return result
 

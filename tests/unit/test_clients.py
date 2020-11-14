@@ -1,3 +1,4 @@
+import json
 from unittest import TestCase
 from unittest.mock import Mock, patch, MagicMock, PropertyMock
 from kirjava import Client
@@ -84,3 +85,43 @@ class ClientExecutionTests(TestCase):
          {"string": "MESSAGE", "variables": {"S": "T"}},
          client.session.request.return_value.json.return_value
         )])
+    
+
+    def test_can_handle_non_json_response(self):
+        client = Client("http://url")
+        client.session = Mock()
+        client.session.request.return_value.json.side_effect = json.decoder.JSONDecodeError("", "", 0)
+        client.session.request.return_value.headers = {"Content-type": "text/html"}
+        client.session.request.return_value.content = b"<html></html>"
+        with self.assertRaises(ValueError) as e:
+            result = client.execute("MESSAGE")
+        self.assertEqual(
+            str(e.exception),
+            "Server did not return JSON, it returned text/html:\n<html></html>"
+        )
+    
+
+    def test_can_handle_non_json_response_too_long(self):
+        client = Client("http://url")
+        client.session = Mock()
+        client.session.request.return_value.json.side_effect = json.decoder.JSONDecodeError("", "", 0)
+        client.session.request.return_value.headers = {"Content-type": "text/html"}
+        client.session.request.return_value.content = b"<html></html>" * 100
+        with self.assertRaises(ValueError) as e:
+            result = client.execute("MESSAGE")
+        self.assertEqual(
+            str(e.exception), "Server did not return JSON, it returned text/html"
+        )
+    
+
+    def test_can_handle_non_json_response_binary(self):
+        client = Client("http://url")
+        client.session = Mock()
+        client.session.request.return_value.json.side_effect = json.decoder.JSONDecodeError("", "", 0)
+        client.session.request.return_value.headers = {"Content-type": "image/png"}
+        client.session.request.return_value.content = b"\xf8\xee"
+        with self.assertRaises(ValueError) as e:
+            result = client.execute("MESSAGE")
+        self.assertEqual(
+            str(e.exception), "Server did not return JSON, it returned image/png"
+        )
