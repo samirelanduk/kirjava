@@ -48,39 +48,39 @@ class ClientHistoryTests(TestCase):
 
 class ClientExecutionTests(TestCase):
 
-    @patch("requests.request")
-    def test_can_send_query(self, mock_request):
+    def test_can_send_query(self):
         client = Client("http://url")
+        client.session = Mock()
         result = client.execute("MESSAGE")
-        mock_request.assert_called_with(
-         "POST", "http://url", headers=client._headers, data='{"query": "MESSAGE"}'
+        client.session.request.assert_called_with(
+            "POST", "http://url", headers=client._headers, data='{"query": "MESSAGE"}'
         )
-        self.assertEqual(result, mock_request.return_value.json.return_value)
+        self.assertEqual(result, client.session.request.return_value.json.return_value)
         self.assertEqual(client._history, [(
-         {"string": "MESSAGE", "variables": {}},
-         mock_request.return_value.json.return_value
+            {"string": "MESSAGE", "variables": {}},
+            client.session.request.return_value.json.return_value
         )])
 
 
-    @patch("requests.request")
-    def test_can_send_query_with_different_verb(self, mock_request):
+    def test_can_send_query_with_different_verb(self):
         client = Client("http://url")
+        client.session = Mock()
         result = client.execute("MESSAGE", method="GET")
-        mock_request.assert_called_with(
-         "GET", "http://url", headers=client._headers, data='{"query": "MESSAGE"}'
+        client.session.request.assert_called_with(
+            "GET", "http://url", headers=client._headers, data='{"query": "MESSAGE"}'
         )
-        self.assertEqual(result, mock_request.return_value.json.return_value)
+        self.assertEqual(result, client.session.request.return_value.json.return_value)
 
 
-    @patch("requests.request")
-    def test_can_send_query_with_variables(self, mock_request):
+    def test_can_send_query_with_variables(self):
         client = Client("http://url")
+        client.session = Mock()
         result = client.execute("MESSAGE", variables={"S": "T"})
-        mock_request.assert_called_with(
+        client.session.request.assert_called_with(
          "POST", "http://url", headers=client._headers, data='{"query": "MESSAGE", "variables": {"S": "T"}}'
         )
-        self.assertEqual(result, mock_request.return_value.json.return_value)
+        self.assertEqual(result, client.session.request.return_value.json.return_value)
         self.assertEqual(client._history, [(
          {"string": "MESSAGE", "variables": {"S": "T"}},
-         mock_request.return_value.json.return_value
+         client.session.request.return_value.json.return_value
         )])

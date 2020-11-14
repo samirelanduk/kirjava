@@ -21,6 +21,7 @@ class Client:
          "Accept": "application/json", "Content-Type": "application/json"
         }
         self._history = []
+        self.session = requests.Session() 
 
 
     def __repr__(self):
@@ -65,8 +66,8 @@ class Client:
 
         data = {"query": message}
         if variables: data["variables"] = variables
-        resp = requests.request(
-         method, self._url, headers=self._headers, data=json.dumps(data)
+        resp = self.session.request(
+            method, self._url, headers=self._headers, data=json.dumps(data)
         )
         result = resp.json()
         self._history.insert(0, (
