@@ -36,6 +36,10 @@ You can see all previous queries made by a client:
     me { name email }}, 'variables': {}}, {'data': {'me': {'name': 'Jon Snow', '
     email': 'jon@winterfell.gov.ws'}}}))
 
+Clients use `requests <http://docs.python-requests.org/>`_ sessions internally,
+and you can access any cookies set by the server via ``client.session.cookies``.
+
+
 Making Queries without a Client
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

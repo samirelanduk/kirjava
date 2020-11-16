@@ -1,6 +1,15 @@
 Changelog
 ---------
 
+Release 0.1.3
+~~~~~~~~~~~~~
+
+`16 November 2020`
+
+* Provides access to requests cookie jar.
+* Better handling of non-JSON responses.
+
+
 Release 0.1.2
 ~~~~~~~~~~~~~
 

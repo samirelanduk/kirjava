@@ -1,16 +1,23 @@
-|travis| |coveralls| |pypi|
+kirjava
+=======
 
-.. |travis| image:: https://api.travis-ci.org/samirelanduk/kirjava.svg?branch=0.1.2
+|travis| |coveralls| |pypi| |version| |commit|
+
+.. |travis| image:: https://api.travis-ci.org/samirelanduk/kirjava.svg?branch=master
   :target: https://travis-ci.org/samirelanduk/kirjava/
 
-.. |coveralls| image:: https://coveralls.io/repos/github/samirelanduk/kirjava/badge.svg?branch=0.1.2
+.. |coveralls| image:: https://coveralls.io/repos/github/samirelanduk/kirjava/badge.svg?branch=master
   :target: https://coveralls.io/github/samirelanduk/kirjava/
 
 .. |pypi| image:: https://img.shields.io/pypi/pyversions/kirjava.svg
   :target: https://pypi.org/project/kirjava/
 
-kirjava
-========
+.. |version| image:: https://img.shields.io/pypi/v/kirjava.svg
+  :target: https://pypi.org/project/kirjava/
+
+.. |commit| image:: https://img.shields.io/github/last-commit/samirelanduk/kirjava/master.svg
+  :target: https://github.com/samirelanduk/kirjava/tree/master/
+
 
 kirjava is a Python GraphQL client.
 
@@ -95,6 +102,10 @@ You can see all previous queries made by a client:
     me { name email }}, 'variables': {}}, {'data': {'me': {'name': 'Jon Snow', '
     email': 'jon@winterfell.gov.ws'}}}))
 
+Clients use `requests <http://docs.python-requests.org/>`_ sessions internally,
+and you can access any cookies set by the server via ``client.session.cookies``.
+
+
 Making Queries without a Client
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -107,6 +118,15 @@ overhead, there is a module level ``execute`` function:
 
 Changelog
 ---------
+
+Release 0.1.3
+~~~~~~~~~~~~~
+
+`16 November 2020`
+
+* Provides access to requests cookie jar.
+* Better handling of non-JSON responses.
+
 
 Release 0.1.2
 ~~~~~~~~~~~~~
