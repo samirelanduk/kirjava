@@ -1,4 +1,5 @@
 import graphene
+from graphene_file_upload.scalars import Upload
 
 class Query(graphene.ObjectType):
 
@@ -15,4 +16,20 @@ class Query(graphene.ObjectType):
         ])
 
 
-schema = graphene.Schema(query=Query)
+class UploadImageMutation(graphene.Mutation):
+
+    class Arguments:
+        image = Upload()
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, **kwargs):
+        return UploadImageMutation(success=True)
+
+
+
+class Mutation(graphene.ObjectType):
+    upload_image = UploadImageMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)

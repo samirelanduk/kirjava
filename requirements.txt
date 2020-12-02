@@ -3,3 +3,4 @@ requests
 # Tests
 django
 graphene_django
+graphene-file-upload

@@ -72,3 +72,13 @@ class Test(LiveServerTestCase):
             ),
             {"data": {"name": "The Republic of Heaven..."}}
         )
+    
+
+    def test_image_upload(self):
+        client = kirjava.Client(self.live_server_url)
+
+        result = client.execute("""mutation uploadImage($image: Upload!) {
+            uploadImage(image: $image) { success }
+        }""", variables={"image": open("kirjava.py")})
+        print(result)
+
