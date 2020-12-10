@@ -13,7 +13,7 @@ class Query(graphene.ObjectType):
 
     def resolve_headers(self, info, **kwargs):
         return ", ".join([
-         h for h in sorted(info.context.META) if h.startswith("HTTP")
+            h for h in sorted(info.context.META) if h.startswith("HTTP")
         ])
 
 

@@ -10,7 +10,7 @@ from django.test.utils import override_settings
 import kirjava
 
 @override_settings(DEBUG=True)
-class Test(LiveServerTestCase):
+class KirjavaTests(LiveServerTestCase):
 
     def test_client(self):
         # Basic
@@ -38,11 +38,11 @@ class Test(LiveServerTestCase):
 
         # History
         self.assertEqual(client.history[0][0], {
-            "string": "query MyQuery($myVar: String) { name(suffix: $myVar) }",
+            "query": "query MyQuery($myVar: String) { name(suffix: $myVar) }",
             "variables": {"myVar": "..."}
         })
         self.assertEqual(client.history[0][1], {"data": {"name": "The Republic of Heaven..."}})
-        self.assertEqual(client.history[1][0], {"string": "{ name headers}", "variables": {}})
+        self.assertEqual(client.history[1][0], {"query": "{ name headers}", "variables": {}})
         self.assertEqual(client.history[1][1], {"data": {
             "name": "The Republic of Heaven",
             "headers": "HTTP_ACCEPT, HTTP_ACCEPT_ENCODING, HTTP_CONNECTION, HTTP_COOKIE, HTTP_HOST, HTTP_KEY, HTTP_USER_AGENT"
@@ -77,12 +77,12 @@ class Test(LiveServerTestCase):
 
     def test_image_upload(self):
         client = kirjava.Client(self.live_server_url)
-        with open("kirjava.py") as f:
+        with open("kirjava/client.py") as f:
             result = client.execute("""mutation uploadImage($image: Upload!) {
                 uploadImage(image: $image) { information }
             }""", variables={"image": f})
         self.assertEqual(
             result["data"]["uploadImage"]["information"],
-            "{'image': <InMemoryUploadedFile: kirjava.py (text/x-python)>}"
+            "{'image': <InMemoryUploadedFile: client.py (text/x-python)>}"
         )
 
