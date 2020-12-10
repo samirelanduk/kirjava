@@ -8,11 +8,11 @@ kirjava can be installed using pip:
 
 ``$ pip3 install kirjava``
 
-kirjava is written for Python 3, and does not support Python 2.
-
 If you get permission errors, try using ``sudo``:
 
 ``$ sudo pip3 install kirjava``
+
+Or alternatively, consider using a virtual environment.
 
 
 Development

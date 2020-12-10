@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 project = 'kirjava'
 copyright = '2020, Sam Ireland'
 author = 'Sam Ireland'
+analytics = "UA-51790964-23"
 
 # The short X.Y version
 version = '0.1'
@@ -89,7 +90,6 @@ html_theme = 'sphinx_rtd_theme'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

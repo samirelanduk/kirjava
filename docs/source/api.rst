@@ -1,6 +1,7 @@
-kirjava.py
-----------
+Full API
+--------
 
-.. automodule:: kirjava
-	:members:
-	:inherited-members:
+.. toctree ::
+	api/client
+	api/utilities
+

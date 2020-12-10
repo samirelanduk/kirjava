@@ -41,11 +41,11 @@ kirjava can be installed using pip:
 
 ``$ pip3 install kirjava``
 
-kirjava is written for Python 3, and does not support Python 2.
-
 If you get permission errors, try using ``sudo``:
 
 ``$ sudo pip3 install kirjava``
+
+Or alternatively, consider using a virtual environment.
 
 
 Development
@@ -105,6 +105,25 @@ You can see all previous queries made by a client:
 Clients use `requests <http://docs.python-requests.org/>`_ sessions internally,
 and you can access any cookies set by the server via ``client.session.cookies``.
 
+Uploading Files
+~~~~~~~~~~~~~~~
+
+If you want to upload files as part of your request, kirjava can do this. Just
+add them as a variable:
+
+    >>> mutation = "mutation sendFile($file: Upload) {sendFile(file: $file) { success }}"
+    >>> f = open("local_file.txt", "rb"):
+    >>> response = client.execute(mutation, variables={"file": f})
+    >>> f.close()
+
+kirjava does this by implementing the
+`GraphQL multipart request specification <https://github.com/jaydenseric/graphql-multipart-request-spec>`_
+under the hood, and using this if any of the variables supplied are Python file
+objects.
+
+Note that the GraphQL server on the other end must be set up to process
+multipart requests.
+
 
 Making Queries without a Client
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,6 +137,15 @@ overhead, there is a module level ``execute`` function:
 
 Changelog
 ---------
+
+Release 0.2.0
+~~~~~~~~~~~~~
+
+`11 December 2020`
+
+* Implementes GraphQL multipart request specification to allow file upload
+* Refactored kirjava.py into full package
+
 
 Release 0.1.3
 ~~~~~~~~~~~~~
