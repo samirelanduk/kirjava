@@ -5,6 +5,8 @@ __author__ = "Sam Ireland"
 
 import requests
 import json
+import io
+import mimetypes
 
 class Client:
     """A GraphQL client. This is the object which sends requests to the GraphQL
@@ -18,7 +20,7 @@ class Client:
     def __init__(self, url):
         self._url = url
         self._headers = {
-         "Accept": "application/json", "Content-Type": "application/json"
+            "Accept": "application/json", "Content-Type": "application/json"
         }
         self._history = []
         self.session = requests.Session() 
@@ -64,17 +66,54 @@ class Client:
         :param dict variables: Any GraphQL variables can be passed here.
         :rtype: ``dict``"""
 
-        data = {"query": message}
-        if variables: data["variables"] = variables
-        resp = self.session.request(
-            method, self._url, headers=self._headers, data=json.dumps(data)
-        )
+        # What will the headers be?
+        headers = {key: value for key, value in self._headers.items()}
+
+        # Are any files being sent?
+        files = {
+            key: value for key, value in variables.items()
+            if isinstance(value, io.IOBase)
+        } if variables else {}
+
+        # If so, process variables
+        if variables and files:
+            variables = {
+                k: None if k in files else v for
+                k, v in variables.items()
+            }
+        
+        # Create operations string
+        operation = json.dumps({"variables": variables, "query": message})
+
+        if files:
+            del headers["Content-Type"]
+            data = {
+                "operations": operation,
+                "map": json.dumps({
+                    str(i): [f"variables.{key}"] for i, key in enumerate(files.keys())
+                })
+            }
+            files = {
+                str(i): (f.name, f.read(), mimetypes.MimeTypes().guess_type(f.name)[0]) for i, f in enumerate(files.values())
+            }
+            
+            response = self.session.request(
+                method, self._url,
+                files=files,
+                data=data,
+                headers=headers
+            )
+        else:
+            response = self.session.request(
+                method, self._url, headers=headers, data=operation
+            )
+        
         try:
-            result = resp.json()
+            result = response.json()
         except json.decoder.JSONDecodeError:
-            content_type = resp.headers["Content-type"]
+            content_type = response.headers["Content-type"]
             try:
-                content = resp.content.decode()
+                content = response.content.decode()
             except: content = None
             message = f"Server did not return JSON, it returned {content_type}"
             if content and len(content) < 256:
@@ -85,6 +124,7 @@ class Client:
         ))
         return result
 
+       
 
 
 def execute(url, *args, headers=None, **kwargs):
@@ -102,3 +142,4 @@ def execute(url, *args, headers=None, **kwargs):
     client = Client(url)
     if headers: client.headers.update(headers)
     return client.execute(*args, **kwargs)
+

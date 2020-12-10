@@ -1,8 +1,9 @@
 import sys
 import os
 os.environ.setdefault(
- "DJANGO_SETTINGS_MODULE", "tests.integration.testserver.settings"
+    "DJANGO_SETTINGS_MODULE", "tests.integration.testserver.settings"
 )
+import json
 import django; django.setup()
 from django.contrib.staticfiles.testing import LiveServerTestCase
 from django.test.utils import override_settings
@@ -76,9 +77,12 @@ class Test(LiveServerTestCase):
 
     def test_image_upload(self):
         client = kirjava.Client(self.live_server_url)
-
-        result = client.execute("""mutation uploadImage($image: Upload!) {
-            uploadImage(image: $image) { success }
-        }""", variables={"image": open("kirjava.py")})
-        print(result)
+        with open("kirjava.py") as f:
+            result = client.execute("""mutation uploadImage($image: Upload!) {
+                uploadImage(image: $image) { information }
+            }""", variables={"image": f})
+        self.assertEqual(
+            result["data"]["uploadImage"]["information"],
+            "{'image': <InMemoryUploadedFile: kirjava.py (text/x-python)>}"
+        )
 

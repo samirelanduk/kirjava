@@ -1,3 +1,4 @@
+import json
 import graphene
 from graphene_file_upload.scalars import Upload
 
@@ -21,10 +22,10 @@ class UploadImageMutation(graphene.Mutation):
     class Arguments:
         image = Upload()
 
-    success = graphene.Boolean()
+    information = graphene.String()
 
     def mutate(self, info, **kwargs):
-        return UploadImageMutation(success=True)
+        return UploadImageMutation(information=str(kwargs))
 
 
 

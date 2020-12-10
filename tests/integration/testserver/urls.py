@@ -4,5 +4,5 @@ from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
- path("", csrf_exempt(FileUploadGraphQLView.as_view(graphiql=True))),
+    path("", FileUploadGraphQLView.as_view()),
 ]
