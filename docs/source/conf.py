@@ -25,9 +25,9 @@ author = 'Sam Ireland'
 analytics = "UA-51790964-23"
 
 # The short X.Y version
-version = '0.1'
+version = '0.2'
 # The full version, including alpha/beta/rc tags
-release = '0.1.3'
+release = '0.2.0'
 
 
 # -- General configuration ---------------------------------------------------

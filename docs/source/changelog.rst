@@ -6,8 +6,8 @@ Release 0.2.0
 
 `11 December 2020`
 
-* Implementes GraphQL multipart request specification to allow file upload
-* Refactored kirjava.py into full package
+* Implements GraphQL multipart request specification to allow file upload.
+* Refactored kirjava.py into full package.
 
 
 Release 0.1.3
