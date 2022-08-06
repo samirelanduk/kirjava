@@ -5,7 +5,7 @@ with open("README.rst") as f:
 
 setup(
  name="kirjava",
- version="0.2.0",
+ version="0.3.0",
  description="A Python GraphQL client.",
  long_description=long_description,
  long_description_content_type="text/x-rst",
@@ -23,6 +23,7 @@ setup(
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
  ],
  keywords="GraphQL",
  packages=["kirjava"],
