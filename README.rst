@@ -1,5 +1,5 @@
 kirjava
-=======
+========
 
 |travis| |coveralls| |pypi| |version| |commit|
 
@@ -18,7 +18,6 @@ kirjava
 .. |commit| image:: https://img.shields.io/github/last-commit/samirelanduk/kirjava/master.svg
   :target: https://github.com/samirelanduk/kirjava/tree/master/
 
-
 kirjava is a Python GraphQL client.
 
 Example
@@ -28,7 +27,6 @@ Example
     >>> client = kirjava.Client("https://api.coolsite.com/")
     >>> client.execute("""{ me { name email }}""")
     {'data': {'me': {'name': 'Jon Snow', 'email': 'jon@winterfell.gov.ws'}}}
-
 
 
 Installing
@@ -137,6 +135,14 @@ overhead, there is a module level ``execute`` function:
 
 Changelog
 ---------
+
+Release 0.3.0
+~~~~~~~~~~~~~
+
+`6 August 2020`
+
+* File upload array type now supported.
+
 
 Release 0.2.0
 ~~~~~~~~~~~~~

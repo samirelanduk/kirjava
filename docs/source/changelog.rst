@@ -1,6 +1,14 @@
 Changelog
 ---------
 
+Release 0.3.0
+~~~~~~~~~~~~~
+
+`6 August 2020`
+
+* File upload array type now supported.
+
+
 Release 0.2.0
 ~~~~~~~~~~~~~
 
