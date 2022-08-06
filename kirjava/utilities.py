@@ -1,6 +1,7 @@
 """Useful functions."""
 
 import io
+import mimetypes
 
 def execute(url, *args, headers=None, **kwargs):
     """Sends a GraphQL request without the user haveing to make a dedicated
@@ -28,9 +29,49 @@ def get_files_from_variables(variables):
     :returns: ``(variables, files)``"""
 
     if not variables: return variables, None
-    files = {k: v for k, v in variables.items() if isinstance(v, io.IOBase)}
-    variables = {k: None if k in files else v for k, v in variables.items()}
-    return variables, files
+    files, new_variables = {}, {}
+    for k, v in variables.items():
+        if isinstance(v, io.IOBase):
+            files[k] = v
+            new_variables[k] = None
+        elif isinstance(v, list) and len(v) and isinstance(v[0], io.IOBase):
+            files[k] = v
+            new_variables[k] = [None] * len(v)
+        else:
+            new_variables[k] = v
+    return new_variables, files
+
+
+def files_to_map(files):
+    """Takes a files dict and creates the map dict needed by the GraphQL file
+    upload spec.
+    
+    :param dict files: the files dict.
+    :rtype: ``dict``"""
+
+    map = {}
+    for k, v in files.items():
+        is_list = isinstance(v, list)
+        l = v if is_list else [v]
+        for i in range(len(l)):
+            map[str(len(map))] = [f"variables.{k}.{i}" if is_list else f"variables.{k}"]
+    return map
+
+
+def pack_files(files):
+    """Takes a files dict and packs them into a HTTP sendable form.
+    
+    :param dict files: the files dict.
+    :rtype: ``dict``"""
+
+    packed_files = {}
+    for file in files.values():
+        l = file if isinstance(file, list) else [file]
+        for f in l:
+            packed_files[str(len(packed_files))] = (
+                f.name, f.read(), mimetypes.MimeTypes().guess_type(f.name)[0]
+            )
+    return packed_files
 
 
 def create_response_error_message(response):

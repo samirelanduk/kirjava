@@ -52,15 +52,24 @@ class ClientExecutionTests(TestCase):
 
     def setUp(self):
         self.patch1 = patch("kirjava.client.get_files_from_variables")
-        self.patch2 = patch("kirjava.client.create_response_error_message")
+        self.patch2 = patch("kirjava.client.files_to_map")
+        self.patch3 = patch("kirjava.client.pack_files")
+        self.patch4 = patch("kirjava.client.create_response_error_message")
         self.mock_files = self.patch1.start()
-        self.mock_error = self.patch2.start()
+        self.mock_map = self.patch2.start()
+        self.mock_pack = self.patch3.start()
+        self.mock_error = self.patch4.start()
+        self.mock_map.return_value = {"0": ["MAP"]}
+        self.mock_pack.return_value = {"0": ["packed"]}
         self.mock_files.return_value = (None, None)
     
 
     def tearDown(self):
         self.patch1.stop()
         self.patch2.stop()
+        self.patch3.stop()
+        self.patch4.stop()
+
 
     def test_can_send_query(self):
         client = Client("http://url")
@@ -118,13 +127,10 @@ class ClientExecutionTests(TestCase):
         self.mock_files.assert_called_with({"S": "T"})
         client.session.request.assert_called_with(
             "POST", "http://url",
-            files={
-                "0": ("f1name", file1.read.return_value, "filename"),
-                "1": ("f2name", file2.read.return_value, "filename"),
-            }, 
+            files={"0": ["packed"]}, 
             data={
                 "operations": '{"variables": {"S": "T"}, "query": "MESSAGE"}',
-                "map": '{"0": ["variables.file1"], "1": ["variables.file2"]}'
+                "map": '{"0": ["MAP"]}'
             },
             headers={'Accept': "application/json"},
         )
@@ -140,7 +146,7 @@ class ClientExecutionTests(TestCase):
         client.session = Mock()
         client.session.request.return_value.json.side_effect = json.decoder.JSONDecodeError("", "", 0)
         with self.assertRaises(ValueError) as e:
-            result = client.execute("MESSAGE")
+            client.execute("MESSAGE")
         self.mock_error.assert_called_with(client.session.request.return_value)
         self.assertEqual(
             str(e.exception),

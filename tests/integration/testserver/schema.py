@@ -29,8 +29,21 @@ class UploadImageMutation(graphene.Mutation):
 
 
 
+class UploadImagesMutation(graphene.Mutation):
+
+    class Arguments:
+        images = graphene.List(Upload)
+
+    information = graphene.String()
+
+    def mutate(self, info, **kwargs):
+        return UploadImagesMutation(information=str(kwargs))
+
+
+
 class Mutation(graphene.ObjectType):
     upload_image = UploadImageMutation.Field()
+    upload_images = UploadImagesMutation.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

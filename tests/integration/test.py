@@ -1,3 +1,4 @@
+from contextlib import redirect_stderr
 import sys
 import os
 os.environ.setdefault(
@@ -77,12 +78,27 @@ class KirjavaTests(LiveServerTestCase):
 
     def test_image_upload(self):
         client = kirjava.Client(self.live_server_url)
-        with open("kirjava/client.py") as f:
-            result = client.execute("""mutation uploadImage($image: Upload!) {
-                uploadImage(image: $image) { information }
-            }""", variables={"image": f})
+        with open(os.devnull, "w") as fnull:
+            with redirect_stderr(fnull) as err:
+                with open("kirjava/client.py") as f:
+                    result = client.execute("""mutation uploadImage($image: Upload!) {
+                        uploadImage(image: $image) { information }
+                    }""", variables={"image": f})            
         self.assertEqual(
             result["data"]["uploadImage"]["information"],
             "{'image': <InMemoryUploadedFile: client.py (text/x-python)>}"
+        )
+    
+
+    def test_multi_image_upload(self):
+        client = kirjava.Client(self.live_server_url)
+        with open("kirjava/client.py") as f1:
+            with open("kirjava/utilities.py") as f2:
+                result = client.execute("""mutation uploadImages($images: [Upload]!) {
+                    uploadImages(images: $images) { information }
+                }""", variables={"images": [f1, f2]})
+        self.assertEqual(
+            result["data"]["uploadImages"]["information"],
+            "{'images': [<InMemoryUploadedFile: client.py (text/x-python)>, <InMemoryUploadedFile: utilities.py (text/x-python)>]}"
         )
 

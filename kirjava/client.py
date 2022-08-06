@@ -2,8 +2,8 @@
 
 import requests
 import json
-import mimetypes
-from .utilities import get_files_from_variables, create_response_error_message
+
+from .utilities import files_to_map, get_files_from_variables, create_response_error_message, pack_files
 
 class Client:
     """A GraphQL client. This is the object which sends requests to the GraphQL
@@ -68,12 +68,8 @@ class Client:
         operation = json.dumps({"variables": variables, "query": message})
         if files:
             del headers["Content-Type"]
-            data = {"operations": operation, "map": json.dumps({
-                str(i): [f"variables.{k}"] for i, k in enumerate(files.keys())
-            })}
-            files = {str(i): (
-                f.name, f.read(), mimetypes.MimeTypes().guess_type(f.name)[0]
-            ) for i, f in enumerate(files.values())}
+            data = {"operations": operation, "map": json.dumps(files_to_map(files))}
+            files = pack_files(files)
             response = self.session.request(
                 method, self._url, files=files, data=data, headers=headers
             )

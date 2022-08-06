@@ -1,6 +1,6 @@
 requests
 
 # Tests
-django
+django==3
 graphene_django
 graphene-file-upload
