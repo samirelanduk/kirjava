@@ -1,6 +1,14 @@
 Changelog
 ---------
 
+Release 0.4.0
+~~~~~~~~~~~~~
+
+`21 August 2023`
+
+* You can retry failed requests.
+
+
 Release 0.3.0
 ~~~~~~~~~~~~~
 

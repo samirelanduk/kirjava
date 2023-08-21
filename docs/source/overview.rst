@@ -28,6 +28,10 @@ Variables can be passed along with the query:
 
     >>> client.execute("{ me { name email }}", variables={"var1": 123})
 
+You can instruct the client to retry failed requests:
+
+    >>> client.execute("{ me { name email }}", retries=3, retry_statuses=[500, 502, 503, 504])
+
 You can see all previous queries made by a client:
 
     >>> client.history
