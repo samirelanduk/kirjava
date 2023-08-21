@@ -151,7 +151,7 @@ Release 0.4.0
 Release 0.3.0
 ~~~~~~~~~~~~~
 
-`6 August 2020`
+`6 August 2022`
 
 * File upload array type now supported.
 
