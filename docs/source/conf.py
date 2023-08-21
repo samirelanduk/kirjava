@@ -20,14 +20,14 @@ sys.path.insert(0, os.path.abspath('../..'))
 # -- Project information -----------------------------------------------------
 
 project = 'kirjava'
-copyright = '2020, Sam Ireland'
+copyright = '2023, Sam Ireland'
 author = 'Sam Ireland'
 analytics = "UA-51790964-23"
 
 # The short X.Y version
-version = '0.3'
+version = '0.4'
 # The full version, including alpha/beta/rc tags
-release = '0.3.0'
+release = '0.4.0'
 
 
 # -- General configuration ---------------------------------------------------
