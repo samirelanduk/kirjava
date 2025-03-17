@@ -1,10 +1,7 @@
 kirjava
 ========
 
-|travis| |coveralls| |pypi| |version| |commit|
-
-.. |travis| image:: https://api.travis-ci.org/samirelanduk/kirjava.svg?branch=master
-  :target: https://travis-ci.org/samirelanduk/kirjava/
+|coveralls| |pypi| |version| |commit|
 
 .. |coveralls| image:: https://coveralls.io/repos/github/samirelanduk/kirjava/badge.svg?branch=master
   :target: https://coveralls.io/github/samirelanduk/kirjava/
