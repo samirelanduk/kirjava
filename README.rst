@@ -96,10 +96,10 @@ You can instruct the client to retry failed requests:
 You can see all previous queries made by a client:
 
     >>> client.history
-    (({'string': { me { name email }}, 'variables': {'var1': 123}, {'data': {'me
-    ': {'name': 'Jon Snow', 'email': 'jon@winterfell.gov.ws'}}}), ({'string': {
-    me { name email }}, 'variables': {}}, {'data': {'me': {'name': 'Jon Snow', '
-    email': 'jon@winterfell.gov.ws'}}}))
+    (({'string': '{ me { name email }}', 'variables': {'var1': 123}, {'data': {'
+    me': {'name': 'Jon Snow', 'email': 'jon@winterfell.gov.ws'}}}), ({'string': 
+    '{me { name email }}', 'variables': {}}, {'data': {'me': {'name': 'Jon Snow'
+    , 'email': 'jon@winterfell.gov.ws'}}}))
 
 Clients use `requests <http://docs.python-requests.org/>`_ sessions internally,
 and you can access any cookies set by the server via ``client.session.cookies``.
@@ -111,7 +111,7 @@ If you want to upload files as part of your request, kirjava can do this. Just
 add them as a variable:
 
     >>> mutation = "mutation sendFile($file: Upload) {sendFile(file: $file) { success }}"
-    >>> f = open("local_file.txt", "rb"):
+    >>> f = open("local_file.txt", "rb")
     >>> response = client.execute(mutation, variables={"file": f})
     >>> f.close()
 
